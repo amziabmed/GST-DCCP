@@ -91,7 +91,10 @@ int main (int argc, char *argv[]){
 	 /* create elements */
 	 pipeline = gst_pipeline_new ("video-sender");
 
-	 v4l2src = gst_element_factory_make ("videotestsrc", "v4l2src");
+	 //v4l2src = gst_element_factory_make ("videotestsrc", "v4l2src");
+	 //g_object_set (G_OBJECT (v4l2src), "pattern", 18, NULL);
+	 v4l2src = gst_element_factory_make ("v4l2src", "v4l2src");
+	 g_object_set (G_OBJECT (v4l2src), "device", "/dev/video1", NULL);
 
 	 videoscale = gst_element_factory_make ("videoscale", "videoscale");
 
@@ -100,7 +103,14 @@ int main (int argc, char *argv[]){
 	 capsfilter = gst_element_factory_make ("capsfilter", "capsfilter");
 
 	 x264enc = gst_element_factory_make ("x264enc", "x264enc");
-	 g_object_set (G_OBJECT (x264enc), "speed-preset", 1,"tune",(guint)4,"bitrate",1024, NULL);
+	 g_object_set (G_OBJECT (x264enc), 
+		       //"speed-preset", 1,
+		       "tune", (guint)4, 
+		       "bitrate", 5000,
+		       "threads", 4,
+		       "psy-tune", 3,
+		       "intra-refresh",TRUE,
+		       NULL);
 
 	 caps4enc = gst_element_factory_make ("capsfilter", "caps4enc");
 
@@ -114,7 +124,7 @@ int main (int argc, char *argv[]){
 	 }
 	
 	
-	 caps = gst_caps_from_string("video/x-raw-yuv,width=640,height=480,framerate=25/1");
+	 caps = gst_caps_from_string("video/x-raw-yuv,width=640,height=480,framerate=60/1");
 	 g_object_set (G_OBJECT (capsfilter), "caps", caps, NULL);
 	 //gst_object_unref (caps);
 	 capsenc = gst_caps_from_string("video/x-h264,stream-format=byte-stream");

@@ -25,13 +25,14 @@ change_bitrate(GstElement * pipeline, guint bit)
   	 if(!encoder)
     	fprintf(stderr,"No encoder element with name 'encoder' found.\n");
 
-  	 if(encoder){
-    	 //GstPad *pad = gst_element_get_static_pad(encoder, "src");
-    	 //gst_pad_set_blocked(pad, TRUE);
-		 g_object_set (G_OBJECT (encoder), "bitrate", bit_rate, NULL);
-    	 //gst_pad_set_blocked(pad, FALSE);
+  	  if(encoder){ 
+    	  //GstPad *pad = gst_element_get_static_pad(encoder, "src"); 
+    	  //gst_pad_set_blocked(pad, TRUE); 
+	    if (bit_rate > 150)
+	      g_object_set (G_OBJECT (encoder), "bitrate", bit_rate, NULL); 
+    	  //gst_pad_set_blocked(pad, FALSE); 
 
-  	 }
+  	  } 
 
   	 else
 
