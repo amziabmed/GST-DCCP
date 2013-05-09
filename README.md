@@ -27,24 +27,75 @@ transmission rate.
 ---------------------------------------
 **********  How it works:  ************
 ---------------------------------------
+********** How it works: ************
 
+== Compile :
 
+-  Run make command to compile sources
 
+== Server :
+
+- Run ./server -p <port>
+
+== Client : 
+
+- Run ./client -p <port> -i <Server IP address>
+ 
 
 ---------------------------------------
 *****  Command Line Arguments :  ******
 ---------------------------------------
 
+- Server :
 
+		 -p : The port to listen to (default: 4000),
+		 -c : The Congestion Control IDentified to be used (default: 3).
+-Client :
 
+		 -p : The port to receive packets from (default: 4000),
+		 -i : The host IP address to receive packets from (default: localhost),
+		 -c : The Congestion Control IDentified to be used (default: 3).
 
----------------------------------------
-***********  Use Iperf :  *************
----------------------------------------
-
+==NOTE : the current version doesn't support CCID 2.
 
 
 
 ---------------------------------------
 ***********  Plot data :  *************
 ---------------------------------------
+
+- Run ./plot.py to plot in real time the current sender rate.
+(make sure that python-matplotlib is installed)
+
+---------------------------------------
+***********  Use Iperf :  *************
+---------------------------------------
+
+== Generate trafic :
+
+- Use Iperf to generate trafic and trouble the transmission between server and client.
+- Server : iperf -s
+- client : iperf -c <Server IP address> -t 60
+- Check the reduction of the transmission rate on the plot.
+
+---------------------------------------
+***********  Pipelines :  *************
+---------------------------------------
+
+== Server :
+
+	gst-launch v4l2src ! videoscale videorate ! video/x-raw-yuv,width=640, height=480,framerate=25/1 ! x264enc bitrate=5000 tune=zerolatency ! video/x-h264,stream-format=byte-stream ! dccpserversink ccid=3 port=XXX
+
+== Client :
+
+	gst-launch dccpclientsrc ccid=3 port=XXX host=YYY ! h264parse ! ffdec_h264 ! ffmpegcolorspace ! ximagesink
+
+
+
+
+
+
+
+
+
+

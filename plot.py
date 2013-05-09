@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 # Plot a graph of Data which is comming in on the fly from the server
 # uses pylab
-# Author: Amziab MOhamed
+# Author: Amziab Mohamed
 # Date: 2013
 
 import pylab
@@ -22,8 +22,6 @@ manager = pylab.get_current_fig_manager()
 
 values=[]
 values = [5000 for x in range(50)]
-
-
 f2 = open('data.out', 'r')
 lines = f2.readlines()
 f2.close()
@@ -31,6 +29,7 @@ line=lines[len(lines)-1]
 p = line.split()
 T0=p[0]
 T1=p[1]
+
 
 def read_data(arg):
   global values,T1,h,T0
@@ -42,6 +41,7 @@ def read_data(arg):
   values.append(p[1])
   T0=T1
   T1=p[1]
+
 
 def RealtimePloter(arg):
   global values,T1
