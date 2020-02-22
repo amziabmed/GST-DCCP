@@ -33,11 +33,11 @@ transmission rate.
 
 -  Run make command to compile sources
 
-== Server :
+== Server side :
 
 - Run ./server -p <port>
 
-== Client : 
+== Client side : 
 
 - Run ./client -p <port> -i <Server IP address>
  
